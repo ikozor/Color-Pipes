@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 
 
-public class GUI<connectLists, redList> extends JFrame implements MouseListener {
+public class GUI extends JFrame implements MouseListener {
 
     private boolean movable = false;
     private static int color = 0;
@@ -108,25 +108,30 @@ public class GUI<connectLists, redList> extends JFrame implements MouseListener 
                 if (guiMap[i][j].getType() == color) guiMap[i][j].convert(0);
             }
         }
+        Map.clearColor(color);
+        connectedLists[(color/10)-1].clear();
+        listsConnected[(color/10)-1] = false;
     }
 
     public boolean isListConnected(int color){
 
         Space first = (Space) connectedLists[color].getFirst();
         Space last = (Space) connectedLists[color].getLast();
-        if (first.getType() == last.getType() && connectedLists[color].size() > 1){
-            listsConnected[color] = true;
-            System.out.println("OH SHIT IT IS ALL " + allConnected());
-            System.out.println("YO WE GOT" + color);
+
+        if (first.getType() == last.getType() && connectedLists[color].size() > 1 && first != last){
+
             return true;
         }
-        listsConnected[color] = false;
         return false;
     }
 
-    public boolean allConnected(){
-        return listsConnected[0] && listsConnected[1] && listsConnected[2] && listsConnected[3] && listsConnected[4] &&
-                listsConnected[5] && listsConnected[6] && listsConnected[7] && listsConnected[8];
+    public void allConnected(){
+        if(listsConnected[0] && listsConnected[1] && listsConnected[2] && listsConnected[3] && listsConnected[4] &&
+                listsConnected[5] && listsConnected[6] && listsConnected[7] && listsConnected[8]){
+            JOptionPane.showMessageDialog(this,"You have connected all the pipes");
+            System.exit(0);
+        }
+
     }
 
 
@@ -137,10 +142,7 @@ public class GUI<connectLists, redList> extends JFrame implements MouseListener 
             if (!movable) {
                 movable = true;
                 color = initial.getType() * 10;
-
-                connectedLists[initial.getType()-1].clear();
                 clearColor(color);
-                Map.clearColor(color);
 
                 connectedLists[initial.getType()-1].add(initial);
             }
@@ -166,15 +168,20 @@ public class GUI<connectLists, redList> extends JFrame implements MouseListener 
     @Override
     public void mouseEntered(MouseEvent e) {
         Space passed = (Space) e.getSource();
-        if(movable && (passed.getType() == 0 || passed.getType() > 9)){
+        if(passed.getType() > 9 && movable && color != passed.getType()){
+            clearColor(passed.getType());
+        }
+
+        if(movable && passed.getType() == 0){
             passed.convert(color);
             Map.setPos(passed.getxPos(),passed.getyPos(), color);
 
             connectedLists[(color/10) -1].add(passed);
         }
-        else if(passed.getType() > 0 && passed.getType() < 10 && color != 0){
+        else if(passed.getType() > 0 && passed.getType() < 10 && color != 0 && movable){
             connectedLists[(color/10) -1].add(passed);
-            isListConnected((color/10) -1);
+            listsConnected[(color/10)-1] = isListConnected((color/10) -1);
+            allConnected();
         }
         else movable = false;
     }
