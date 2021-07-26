@@ -148,6 +148,7 @@ public class GUI<connectLists, redList> extends JFrame implements MouseListener 
             passed.convert(color);
             Map.setPos(passed.getxPos(),passed.getyPos(), color);
 
+
         }
         else{
             movable = false;

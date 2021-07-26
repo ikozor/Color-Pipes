@@ -27,7 +27,7 @@ import java.io.FileNotFoundException;
  * 60 = orange pipe
  * 70 = pink pipe
  * 80 = grey pipe
- * 90 = white pipedf
+ * 90 = white pipe
  */
 
 public class Main {
