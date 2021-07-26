@@ -12,21 +12,20 @@ public class GUI extends JFrame implements MouseListener {
 
     private boolean movable = false;
     private static int color = 0;
-    private final int[][] map;
     private final Space[][] guiMap;
 
-    private static LinkedList[] connectedLists = new LinkedList[9];
-    private static boolean[] listsConnected = new boolean[9];
+    private static final LinkedList[] connectedLists = new LinkedList[9];
+    private static final boolean[] listsConnected = new boolean[9];
 
-    private static LinkedList<Space> redList = new LinkedList<>();
-    private static LinkedList<Space> blueList = new LinkedList<>();
-    private static LinkedList<Space> greenList = new LinkedList<>();
-    private static LinkedList<Space> purpleList = new LinkedList<>();
-    private static LinkedList<Space> yellowList = new LinkedList<>();
-    private static LinkedList<Space> orangeList = new LinkedList<>();
-    private static LinkedList<Space> pinkList = new LinkedList<>();
-    private static LinkedList<Space> grayList = new LinkedList<>();
-    private static LinkedList<Space> whiteList = new LinkedList<>();
+    private static final LinkedList<Space> redList = new LinkedList<>();
+    private static final LinkedList<Space> blueList = new LinkedList<>();
+    private static final LinkedList<Space> greenList = new LinkedList<>();
+    private static final LinkedList<Space> purpleList = new LinkedList<>();
+    private static final LinkedList<Space> yellowList = new LinkedList<>();
+    private static final LinkedList<Space> orangeList = new LinkedList<>();
+    private static final LinkedList<Space> pinkList = new LinkedList<>();
+    private static final LinkedList<Space> grayList = new LinkedList<>();
+    private static final LinkedList<Space> whiteList = new LinkedList<>();
 
     public GUI() {
         listsConnected[0] = true;
@@ -52,7 +51,7 @@ public class GUI extends JFrame implements MouseListener {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        map = Map.getMap();
+        int[][] map = Map.getMap();
         guiMap = new Space[Map.getX()][Map.getY()];
 
         JPanel gamePanel = new JPanel();
@@ -118,11 +117,7 @@ public class GUI extends JFrame implements MouseListener {
         Space first = (Space) connectedLists[color].getFirst();
         Space last = (Space) connectedLists[color].getLast();
 
-        if (first.getType() == last.getType() && connectedLists[color].size() > 1 && first != last){
-
-            return true;
-        }
-        return false;
+        return first.getType() == last.getType() && connectedLists[color].size() > 1 && first != last;
     }
 
     public void allConnected(){

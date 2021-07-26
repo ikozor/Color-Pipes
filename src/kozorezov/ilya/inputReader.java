@@ -50,7 +50,7 @@ public class inputReader {
 
                 int Y = i%y;
 
-                map.setPos(X,Y, n);
+                Map.setPos(X,Y, n);
 
                 //If there are more than 2 dots of 1 color, throw error
                 if(n!=0 && ++check[n-1] > 2){
@@ -96,7 +96,7 @@ public class inputReader {
 
         */
 
-        map.printMap();
+        Map.printMap();
     }
 
     public static Map getMap() {

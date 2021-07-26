@@ -102,11 +102,4 @@ public class Space extends JButton{
     public int getxPos() {
         return xPos;
     }
-    public boolean isConnected(){
-        return connected;
-    }
-    public void setConnected(boolean x){
-        connected = x;
-    }
-
 }

@@ -1,9 +1,5 @@
 package kozorezov.ilya;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 public class Map {
     private static int[][] map;
 

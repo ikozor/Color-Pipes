@@ -1,7 +1,4 @@
 package kozorezov.ilya;
-
-import java.io.FileNotFoundException;
-
 /**
  * I use a 2D int array for my map, here is a key of what each number means
  *
