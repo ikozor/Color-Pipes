@@ -29,6 +29,16 @@ public class GUI<connectLists, redList> extends JFrame implements MouseListener 
     private static LinkedList<Space> whiteList = new LinkedList<>();
 
     public GUI() {
+        listsConnected[0] = true;
+        listsConnected[1] = true;
+        listsConnected[2] = true;
+        listsConnected[3] = true;
+        listsConnected[4] = true;
+        listsConnected[5] = true;
+        listsConnected[6] = true;
+        listsConnected[7] = true;
+        listsConnected[8] = true;
+
         try {
             new inputReader();
         } catch (FileNotFoundException e) {
@@ -54,6 +64,9 @@ public class GUI<connectLists, redList> extends JFrame implements MouseListener 
                 guiMap[i][j] = new Space(map[i][j], i, j);
                 guiMap[i][j].addMouseListener(this);
                 gamePanel.add(guiMap[i][j]);
+                if(map[i][j] != 0){
+                    listsConnected[map[i][j] -1] = false;
+                }
             }
         }
 
@@ -98,13 +111,22 @@ public class GUI<connectLists, redList> extends JFrame implements MouseListener 
     }
 
     public boolean isListConnected(int color){
-        if (connectedLists[color-1].getFirst() == connectedLists[color-1].getLast() && connectedLists[color-1].size() > 1){
-            listsConnected[color -1] = true;
-            System.out.println("true");
+
+        Space first = (Space) connectedLists[color].getFirst();
+        Space last = (Space) connectedLists[color].getLast();
+        if (first.getType() == last.getType() && connectedLists[color].size() > 1){
+            listsConnected[color] = true;
+            System.out.println("OH SHIT IT IS ALL " + allConnected());
+            System.out.println("YO WE GOT" + color);
             return true;
         }
-        listsConnected[color -1 ] = false;
+        listsConnected[color] = false;
         return false;
+    }
+
+    public boolean allConnected(){
+        return listsConnected[0] && listsConnected[1] && listsConnected[2] && listsConnected[3] && listsConnected[4] &&
+                listsConnected[5] && listsConnected[6] && listsConnected[7] && listsConnected[8];
     }
 
 
@@ -148,11 +170,13 @@ public class GUI<connectLists, redList> extends JFrame implements MouseListener 
             passed.convert(color);
             Map.setPos(passed.getxPos(),passed.getyPos(), color);
 
-
+            connectedLists[(color/10) -1].add(passed);
         }
-        else{
-            movable = false;
+        else if(passed.getType() > 0 && passed.getType() < 10 && color != 0){
+            connectedLists[(color/10) -1].add(passed);
+            isListConnected((color/10) -1);
         }
+        else movable = false;
     }
 
     @Override
