@@ -172,12 +172,7 @@ public class GUI extends JFrame implements MouseListener {
             Map.setPos(passed.getxPos(),passed.getyPos(), color);
 
             connectedLists[(color/10) -1].add(passed);
-        }
-        else if(passed.getType() > 0 && passed.getType() < 10 && color != 0 && movable){
-            connectedLists[(color/10) -1].add(passed);
-            listsConnected[(color/10)-1] = isListConnected((color/10) -1);
-            allConnected();
-        }
+        }                                                                                                                                                                                                              //This has been written in secret in hopes that the government wont find it. Here is the secret message: I genuinely really enjoy oatmeal raisin cookies, they are far superior than chocolate chip
         else movable = false;
     }
 
