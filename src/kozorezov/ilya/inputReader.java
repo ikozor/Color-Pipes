@@ -1,4 +1,10 @@
 package kozorezov.ilya;
+/**
+ * Get the information from the game file and then put the map into a 2D array that represents the game map.
+ * Then the game will be put into the GUI
+ *
+ * Some methods here are to get information to build a solver, so they have not been used in this project yet
+ */
 
 import java.awt.*;
 import java.io.File;

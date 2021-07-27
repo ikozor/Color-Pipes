@@ -1,28 +1,29 @@
 package kozorezov.ilya;
 
+/**
+ * This is where the map will be created and represented in a 2D array, I thought it would be easier to understand
+ * and less prone to errors if I can create the map in a 2D array and then use that to create the GUI
+ */
+
 public class Map {
     private static int[][] map;
 
     private static int xSize;
     private static int ySize;
 
-    Map(int x, int y){
+    Map(int x, int y){                                                        // create an empty map
         map = new int[x][y];
         xSize = x;
         ySize = y;
 
     }
 
-    public static void setPos(int x, int y, int n){
+    public static void setPos(int x, int y, int n){                         // Set a space a certain color
         map[x][y] = n;
     }
 
-    public int getPos(int x, int y){
-        return map[x][y];
-    }
-
-    public boolean move(int x, int y, Direction direction){
-        int moveX = 0;
+    public boolean move(int x, int y, Direction direction){             // for when I try to create a solver for the map
+        int moveX = 0;                                      // basically get a block and move in the direction specified
         int moveY = 0;
         switch(direction){
             case RIGHT:
@@ -59,7 +60,7 @@ public class Map {
     return true;
     }
 
-    public static void clearMap() {
+    public static void clearMap() {                                     // clear the map
         for(int i = 0; i<xSize;i++){
             for(int j =0;j<ySize;j++){
                 if(map[i][j]>= 10)map[i][j] =0;
@@ -67,14 +68,14 @@ public class Map {
         }
     }
 
-    public static void clearColor(int color) {
+    public static void clearColor(int color) {                         // clear a color
         for(int i = 0; i<xSize;i++){
             for(int j =0;j<ySize;j++){
                 if(map[i][j] == color) map[i][j] =0;
             }
         }
     }
-    public static void printMap(){
+    public static void printMap(){                                     // print out the map
         System.out.println("Map:");
         for(int[] i :map){
             for(int j :i){
@@ -85,6 +86,7 @@ public class Map {
         System.out.println();
     }
 
+    // all the getters
     public static int getY() {
         return ySize;
     }

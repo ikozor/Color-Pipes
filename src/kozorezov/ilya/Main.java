@@ -30,7 +30,6 @@ package kozorezov.ilya;
 public class Main {
                                     //FIX THE FILE THING
     public static void main(String[] args) {
-        //new Solver();
         new GUI();
     }
 }

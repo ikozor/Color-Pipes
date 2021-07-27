@@ -1,5 +1,10 @@
 package kozorezov.ilya;
 
+/**
+ * This will ask the user to find a file that contain the content of the map that the user will
+ * be able to play the game on
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -51,6 +56,8 @@ public class fileGUI extends JFrame implements ActionListener {
 
         }
     }
+
+    // all the getters
     public static File getMapFile(){
         return mapFile;
     }

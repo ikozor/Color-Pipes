@@ -1,4 +1,8 @@
 package kozorezov.ilya;
+/**
+ * The actual place where the game will be, this also checks to see if all the pipes are connected and if the
+ * user finished the game or not
+ */
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,13 +14,14 @@ import java.util.LinkedList;
 
 public class GUI extends JFrame implements MouseListener {
 
-    private boolean movable = false;
-    private static int color = 0;
-    private final Space[][] guiMap;
+    private boolean movable = false;                                            // if the user can set new pipes
+    private static int color = 0;                                               // the value of the color that will be placed
+    private final Space[][] guiMap;                                             // the map where the game will take place
 
-    private static final LinkedList[] connectedLists = new LinkedList[9];
-    private static final boolean[] listsConnected = new boolean[9];
+    private static final LinkedList[] connectedLists = new LinkedList[9];       // A collection of each color to check if the pipe has been connected
+    private static final boolean[] listsConnected = new boolean[9];             // declare if a pipe has been connected
 
+    // All of the possible pipes in the game
     private static final LinkedList<Space> redList = new LinkedList<>();
     private static final LinkedList<Space> blueList = new LinkedList<>();
     private static final LinkedList<Space> greenList = new LinkedList<>();
@@ -27,7 +32,9 @@ public class GUI extends JFrame implements MouseListener {
     private static final LinkedList<Space> grayList = new LinkedList<>();
     private static final LinkedList<Space> whiteList = new LinkedList<>();
 
+
     public GUI() {
+        // say that all of the lists are connected in case game .txt file does not contain that color
         listsConnected[0] = true;
         listsConnected[1] = true;
         listsConnected[2] = true;
@@ -38,11 +45,14 @@ public class GUI extends JFrame implements MouseListener {
         listsConnected[7] = true;
         listsConnected[8] = true;
 
+        // get the map from the input
         try {
             new inputReader();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        // create the JFrame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(800, 800);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -51,13 +61,16 @@ public class GUI extends JFrame implements MouseListener {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
+        // create the map from the input
         int[][] map = Map.getMap();
         guiMap = new Space[Map.getX()][Map.getY()];
 
+        // set up the game panel
         JPanel gamePanel = new JPanel();
         gamePanel.setLayout(new GridLayout(Map.getX(), Map.getY()));
         gamePanel.setPreferredSize(new Dimension(600, 600));
 
+        // draw the game map
         for (int i = 0; i < Map.getX(); i++) {
             for (int j = 0; j < Map.getY(); j++) {
                 guiMap[i][j] = new Space(map[i][j], i, j);
@@ -68,8 +81,9 @@ public class GUI extends JFrame implements MouseListener {
                 }
             }
         }
-
         panel.add(gamePanel);
+
+        // create a clear button that clears all of the pipes
         JButton clear = new JButton("Clear");
         clear.addActionListener(e -> {
             clearMap();
@@ -81,7 +95,7 @@ public class GUI extends JFrame implements MouseListener {
         this.add(panel);
         this.setVisible(true);
 
-
+        // add all of the linked list to the array
         connectedLists[0] = redList;
         connectedLists[1] = blueList;
         connectedLists[2] = greenList;
@@ -93,6 +107,7 @@ public class GUI extends JFrame implements MouseListener {
         connectedLists[8] = whiteList;
     }
 
+    // clear map method
     private void clearMap(){
         for (int i = 0; i < Map.getX(); i++) {
             for (int j = 0; j < Map.getY(); j++) {
@@ -101,6 +116,7 @@ public class GUI extends JFrame implements MouseListener {
         }
     }
 
+    // to clear a specific color
     public void clearColor(int color){
         for (int i = 0; i < Map.getX(); i++) {
             for (int j = 0; j < Map.getY(); j++) {
@@ -112,28 +128,10 @@ public class GUI extends JFrame implements MouseListener {
         listsConnected[(color/10)-1] = false;
     }
 
-    public boolean isListConnected(int color){
-
-        Space first = (Space) connectedLists[color].getFirst();
-        Space last = (Space) connectedLists[color].getLast();
-
-        return first.getType() == last.getType() && connectedLists[color].size() > 1 && first != last;
-    }
-
-    public void allConnected(){
-        if(listsConnected[0] && listsConnected[1] && listsConnected[2] && listsConnected[3] && listsConnected[4] &&
-                listsConnected[5] && listsConnected[6] && listsConnected[7] && listsConnected[8]){
-            JOptionPane.showMessageDialog(this,"You have connected all the pipes");
-            System.exit(0);
-        }
-
-    }
-
-
     @Override
     public void mousePressed(MouseEvent e) {
-        Space initial = (Space) e.getSource();
-        if(initial.getType() > 0 && initial.getType() < 10 ) {
+        Space initial = (Space) e.getSource();                                  // get the space that was pressed on
+        if(initial.getType() > 0 && initial.getType() < 10 ) {       // if the space is a set piece, reset the LL and start the pipe
             if (!movable) {
                 movable = true;
                 color = initial.getType() * 10;
@@ -142,7 +140,7 @@ public class GUI extends JFrame implements MouseListener {
                 connectedLists[initial.getType()-1].add(initial);
             }
         }
-        else if(initial.getType() > 9 && initial.getType() < 100) {
+        else if(initial.getType() > 9 && initial.getType() < 100) {  // else if clicked on pipe then just continue the pipe
             if (!movable) {
                 movable = true;
                 color = initial.getType();
@@ -163,11 +161,11 @@ public class GUI extends JFrame implements MouseListener {
     @Override
     public void mouseEntered(MouseEvent e) {
         Space passed = (Space) e.getSource();
-        if(passed.getType() > 9 && movable && color != passed.getType()){
+        if(passed.getType() > 9 && movable && color != passed.getType()){  // if you go on another colored pipe, delete the pipe user went over
             clearColor(passed.getType());
         }
 
-        if(movable && passed.getType() == 0){
+        if(movable && passed.getType() == 0){                               // if moved on black space, place new pipe
             passed.convert(color);
             Map.setPos(passed.getxPos(),passed.getyPos(), color);
 
