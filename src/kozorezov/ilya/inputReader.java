@@ -28,7 +28,7 @@ public class inputReader {
 
     inputReader() throws FileNotFoundException{
         //find the file and make sure it is correct
-       /* new fileGUI();
+       new fileGUI();
         while(!fileGUI.getGotFile()){                           //Wait until the program finds the file
             System.out.print("");
         }
@@ -36,8 +36,6 @@ public class inputReader {
         File input = fileGUI.getMapFile();
         System.out.println(input);
 
-        */
-        File input = new File("C:\\Users\\ilyak\\Documents\\yomama.txt");
         Scanner reader = new Scanner(input);
         Arrays.fill(distances, -1);
         //try{
@@ -94,17 +92,7 @@ public class inputReader {
                 }
             }
             //Throw exception of the file was not correct
-       /* } catch (Exception e){
-            System.out.println("Error: incorrect data types, please use integers. Rerun program");
-            System.exit(-1);
-        }
-
-
-        */
-
-        Map.printMap();
-    }
-
+       }
     public static Map getMap() {
         return map;
     }

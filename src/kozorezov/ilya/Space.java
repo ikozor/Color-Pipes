@@ -1,4 +1,5 @@
 package kozorezov.ilya;
+
 /**
  * This is the what will create each space on the GUI map, it extends from the JButton class so that I
  * can get the action of the button, I also added more methods that can change the color and properties of the map
