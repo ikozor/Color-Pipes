@@ -6,6 +6,7 @@ package kozorezov.ilya;
  */
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,6 +44,8 @@ public class fileGUI extends JFrame implements ActionListener {
         if(e.getSource() == upload){
             // Have the user find the text file which contains the game map
             JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+            chooser.setFileFilter(filter);
             int response = chooser.showOpenDialog(null);
             if (response == JFileChooser.APPROVE_OPTION){
                 File file = new File(chooser.getSelectedFile().getAbsolutePath());

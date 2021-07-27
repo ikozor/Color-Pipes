@@ -128,6 +128,33 @@ public class GUI extends JFrame implements MouseListener {
         listsConnected[(color/10)-1] = false;
     }
 
+    //  checks if a certain color has connected the pipe and returns the value
+    public boolean isListConnected(int color){
+        Space first = (Space) connectedLists[color].getFirst();
+        Space last = (Space) connectedLists[color].getLast();
+        return first.getType() == last.getType() && connectedLists[color].size() > 1 && first != last;
+    }
+
+    // checks of all of the pipes are connected and ends the game if they all are
+    public void allConnected(){
+        if(listsConnected[0] && listsConnected[1] && listsConnected[2] && listsConnected[3] && listsConnected[4] &&
+                listsConnected[5] && listsConnected[6] && listsConnected[7] && listsConnected[8]){
+            JOptionPane.showMessageDialog(this,"You have connected all the pipes");
+            System.exit(0);
+        }
+
+        System.out.println("Red: " + listsConnected[0]);
+        System.out.println("Blue: " + listsConnected[1]);
+        System.out.println("Green: " + listsConnected[2]);
+        System.out.println("Purple: " + listsConnected[3]);
+        System.out.println("Yellow: " + listsConnected[4]);
+        System.out.println("Orange: " + listsConnected[5]);
+        System.out.println("Pink: " + listsConnected[6]);
+        System.out.println("Gray: " + listsConnected[7]);
+        System.out.println("White: " + listsConnected[8]);
+        System.out.println();
+    }
+
     @Override
     public void mousePressed(MouseEvent e) {
         Space initial = (Space) e.getSource();                                  // get the space that was pressed on
@@ -170,7 +197,12 @@ public class GUI extends JFrame implements MouseListener {
             Map.setPos(passed.getxPos(),passed.getyPos(), color);
 
             connectedLists[(color/10) -1].add(passed);
-        }                                                                                                                                                                                                              //This has been written in secret in hopes that the government wont find it. Here is the secret message: I genuinely really enjoy oatmeal raisin cookies, they are far superior than chocolate chip
+        }
+        else if(passed.getType() > 0 && passed.getType() < 10 && color == (passed.getType() * 10) && movable){
+            connectedLists[(color/10) -1].add(passed);
+            listsConnected[(color/10)-1] = isListConnected((color/10) -1);
+            allConnected();
+        }
         else movable = false;
     }
 
