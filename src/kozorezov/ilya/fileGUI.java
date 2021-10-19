@@ -5,18 +5,24 @@ package kozorezov.ilya;
  * be able to play the game on
  */
 
-import javax.swing.*;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 public class fileGUI extends JFrame implements ActionListener {
 
-    private static JButton upload;
-    private static File mapFile;
-    private static boolean gotFile = false;
+    private static JButton myUpload;
+    private static File myMapFile;
+    private static boolean myGotFile = false;
 
 
     fileGUI(){
@@ -24,12 +30,12 @@ public class fileGUI extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout( new FlowLayout());
 
-        //Ask user to upload the map file
+        //Ask user to myUpload the map file
         JLabel label = new JLabel("Please select the text file for the map:");
-        upload = new JButton("Select File");
-        upload.addActionListener(this);
+        myUpload = new JButton("Select File");
+        myUpload.addActionListener(this);
         this.add(label);
-        this.add(upload);
+        this.add(myUpload);
 
         this.setSize(new Dimension(300,100));
         this.setVisible(true);
@@ -41,7 +47,7 @@ public class fileGUI extends JFrame implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == upload){
+        if(e.getSource() == myUpload){
             // Have the user find the text file which contains the game map
             JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
@@ -50,8 +56,8 @@ public class fileGUI extends JFrame implements ActionListener {
             if (response == JFileChooser.APPROVE_OPTION){
                 File file = new File(chooser.getSelectedFile().getAbsolutePath());
                 if(file.getName().endsWith(".txt")) {
-                    mapFile = file;
-                    gotFile = true;
+                    myMapFile = file;
+                    myGotFile = true;
                     this.dispose();
                 }
 
@@ -62,9 +68,9 @@ public class fileGUI extends JFrame implements ActionListener {
 
     // all the getters
     public static File getMapFile(){
-        return mapFile;
+        return myMapFile;
     }
     public static boolean getGotFile(){
-        return gotFile;
+        return myGotFile;
     }
 }
